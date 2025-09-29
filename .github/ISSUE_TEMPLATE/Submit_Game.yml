@@ -39,6 +39,6 @@ body:
     label: idk man
     description: more then one may be selected
     options:
-      - label: 123
+      - label: testing 123
       required: true
       - label: testing
