@@ -34,10 +34,9 @@ body:
     required: true
 
 - type: checkboxes
-  id: license-agreements
+  id: agreements
   attributes:
-    label: idk man
-    description: more then one may be selected
+    label: Agreements
     options:
       - type: markdown
         attributes:
