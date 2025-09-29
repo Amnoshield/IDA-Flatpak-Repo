@@ -15,7 +15,7 @@ body:
 - type: input
   id: file_name
   attributes:
-    label: File name (ie. Recycled_Cybernetics_linux.x86_64)
+    label: File name (e.g., Recycled_Cybernetics_linux.x86_64)
   validations:
     required: true
 
@@ -34,11 +34,12 @@ body:
     required: true
 
 - type: checkboxes
-  id: idk-man
+  id: license-agreements
   attributes:
     label: idk man
     description: more then one may be selected
     options:
-      - label: testing 123
-      required: true
-      - label: testing
+      - label: The provided file(s) follow the specified format.
+        required: true
+      - label: The provided game executable is for Linux and not for Windows (e.g., some_game.exe), Apple/Mac, or any other operating system.
+        required: true
