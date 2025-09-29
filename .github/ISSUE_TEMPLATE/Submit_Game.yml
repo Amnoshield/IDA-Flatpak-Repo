@@ -11,7 +11,7 @@ body:
     label: Game ID (e.g., io.github.amnoshield.RecycledCybernetics)
   validations:
     required: true
-    pattern: "^[a-zA-Z0-9\._]+$"
+    pattern: "^[a-zA-Z0-9\\._]+$"
 
 - type: input
   id: file_name
@@ -19,7 +19,7 @@ body:
     label: File name (e.g., Recycled_Cybernetics_linux.x86_64)
   validations:
     required: true
-    pattern: "^(?!([~/\\]))(?!.*(\.){2,})[a-zA-Z0-9\._-]+$"
+    pattern: "^(?!([~/\\\\]))(?!.*(\\.){2,})[a-zA-Z0-9\\._-]+$"
 
 - type: input
   id: source_url
