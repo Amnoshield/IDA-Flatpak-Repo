@@ -38,9 +38,6 @@ body:
   attributes:
     label: Agreements
     options:
-      - type: markdown
-        attributes:
-          value: "## idk if this will work"
       - label: The provided file(s) follow the specified format.
         required: true
       - label: The provided game executable is for Linux and not for Windows (e.g., some_game.exe), Apple/Mac, or any other operating system.
