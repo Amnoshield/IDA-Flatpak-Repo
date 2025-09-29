@@ -42,3 +42,5 @@ body:
       - label: this should be required
         required: true
       - label: testing
+  validations:
+    required: true
