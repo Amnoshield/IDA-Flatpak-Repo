@@ -1,5 +1,5 @@
 ---
-name: Submit Game
+name: don't Submit Game
 about: Submit a request to add your game!
 title: ''
 labels: needs approval, publish this game plz
@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-name: Submit Game
+name: don't Submit Game
 description: Submit a request to add your game!
 title: "[New Game] <Game Name>"
 
