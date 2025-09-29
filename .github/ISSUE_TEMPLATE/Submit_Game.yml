@@ -37,6 +37,7 @@ body:
   id: agreements
   attributes:
     label: Agreements
+    description:
     options:
       - label: The provided file(s) follow the specified format.
         required: true
