@@ -32,3 +32,13 @@ body:
     label: SHA256 of source
   validations:
     required: true
+
+- type: checkboxes
+  id: idk-man
+  attributes:
+    label: idk man
+    description: more then one may be selected
+    options:
+      - label: 123
+      required: true
+      - label: testing
