@@ -40,5 +40,5 @@ body:
     description: more then one may be selected
     options:
       - label: this should be required
-      - required: true
+        required: true
       - label: testing
