@@ -1,0 +1,86 @@
+name: Build and Deploy Multi-App Flatpak Repo
+
+on:
+  workflow_dispatch:
+  #push:
+    #branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y flatpak flatpak-builder ostree gpg git
+
+      - name: Clone OSTree repo from gh-pages
+        run: |
+          git fetch origin gh-pages
+          git checkout gh-pages || git checkout --orphan gh-pages
+          mkdir -p repo
+
+      - name: Import GPG private key
+        run: |
+          echo "$GPG_PRIVATE_KEY" | base64 --decode > private.gpg
+          gpg --batch --yes --import private.gpg
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+      - name: Detect changed and removed apps
+        id: changes
+        run: |
+          git fetch origin main
+          # Changed manifests
+          CHANGED=$(git diff --name-only origin/main...HEAD manifests/ | grep '\.json$' || true)
+          echo "changed=$CHANGED" >> $GITHUB_OUTPUT
+
+          # Current manifests in main branch
+          CURRENT=$(ls manifests/*.json | xargs -n1 basename | sed 's/\.json$//')
+          echo "current=$CURRENT" >> $GITHUB_OUTPUT
+
+          # Existing apps in repo
+          EXISTING=$(ls repo | xargs -n1 basename)
+          echo "existing=$EXISTING" >> $GITHUB_OUTPUT
+
+          # Apps to remove
+          REMOVE=$(comm -23 <(echo "$EXISTING" | sort) <(echo "$CURRENT" | sort))
+          echo "remove=$REMOVE" >> $GITHUB_OUTPUT
+
+      - name: Remove deleted apps via OSTree
+        if: steps.changes.outputs.remove != ''
+        run: |
+          for app in ${{ steps.changes.outputs.remove }}; do
+            echo "Removing $app via flatpak build-update-repo..."
+            flatpak build-update-repo --prune --gpg-sign="$GPG_KEY_ID" repo "$app"
+          done
+        env:
+          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Build only changed apps
+        if: steps.changes.outputs.changed != ''
+        run: |
+          mkdir -p build
+          for manifest in ${{ steps.changes.outputs.changed }}; do
+            appname=$(basename "$manifest" .json)
+            echo "Building $appname..."
+            flatpak-builder --force-clean --repo=repo "build/$appname" "$manifest"
+            flatpak build-export --gpg-sign="$GPG_KEY_ID" repo "build/$appname"
+          done
+        env:
+          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Commit and push updates
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add repo
+          git commit -m "Update multi-app Flatpak repo" || echo "No changes to commit"
+          git push origin gh-pages
