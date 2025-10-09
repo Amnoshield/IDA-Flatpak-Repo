@@ -72,6 +72,8 @@ def parse_issue_body(body):
 
 
 def validate_fields(fields):
+    print(fields)
+    print(regex_rules.items())
     errors = []
     for field, pattern in regex_rules.items():
         if field not in fields:
