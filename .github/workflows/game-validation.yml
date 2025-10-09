@@ -1,0 +1,58 @@
+name: Game Form Validation and Approval
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  validate:
+    name: Automatic Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests pyyaml
+
+      - name: Run Validation
+        id: validate
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: python scripts/validate_game.py
+
+  manual_approval:
+    name: Manual Review & Approval
+    needs: validate
+    runs-on: ubuntu-latest
+    environment:
+      name: wait-for-approval   # <-- this environment can be set to require manual approval
+
+    steps:
+      - name: Comment awaiting approval
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          echo "Commenting that the issue is awaiting manual approval..."
+          curl -s -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$ISSUE_NUMBER/comments \
+            -d '{"body": "⏳ This issue has passed automated validation and is now **waiting for manual approval** by the maintainers."}'
+
