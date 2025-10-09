@@ -1,6 +1,6 @@
 name: Submit Game
 description: Submit a request to add your game!
-title: "[New Game] <Game Name>"
+title: "[New Game]: <Game Name>"
 
 labels: ["publish this game plz", "needs approval"]
 
