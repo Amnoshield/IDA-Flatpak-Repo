@@ -6,7 +6,7 @@ labels: ["publish this game plz", "needs approval"]
 
 body:
 - type: input
-  id: id
+  id: game_id
   attributes:
     label: Game ID (e.g., io.github.amnoshield.RecycledCybernetics)
   validations:
