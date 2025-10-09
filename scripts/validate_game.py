@@ -11,11 +11,11 @@ issue_title = os.environ["ISSUE_TITLE"]
 
 # ✅ Expected fields and regex rules
 regex_rules = {
-    "game_id": r"^[a-zA-Z0-9\._]+$",
-    "file_name": r"^(?!([~/\\]))(?!.*(\.){2,})^[a-zA-Z0-9\._-]+$",
-    "source_url": r"^https:\/\/github\.com\/[^\/]+\/[^\/]+\/releases\/download\/.+\.tar\.xz$",
-    "sha256": r"^[A-Fa-f0-9]{64}$",
-    "agreements": None,  # Checkbox
+    "Game ID": r"^[a-zA-Z0-9\._]+$",
+    "File Name": r"^(?!([~/\\]))(?!.*(\.){2,})^[a-zA-Z0-9\._-]+$",
+    "Source URL": r"^https:\/\/github\.com\/[^\/]+\/[^\/]+\/releases\/download\/.+\.tar\.xz$",
+    "SHA256": r"^[A-Fa-f0-9]{64}$",
+    "Agreements": None,  # Checkbox
 }
 
 # ✅ Only validate issues matching this form type or title prefix
