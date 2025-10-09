@@ -40,8 +40,6 @@ body:
     description: Must check all boxes to submit.
     options:
       - label: The provided file(s) follow the specified format.
-        #required: true
+        required: true
       - label: The provided game executable is for Linux and not for Windows (e.g., some_game.exe), Apple/Mac, or any other operating system.
-        #required: true
-  validations:
-      required: true
+        required: true
