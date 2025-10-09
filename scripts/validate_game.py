@@ -72,8 +72,6 @@ def parse_issue_body(body):
 
 
 def validate_fields(fields):
-    print(fields)
-    print(regex_rules.items())
     errors = []
     for field, pattern in regex_rules.items():
         if field not in fields:
@@ -278,8 +276,8 @@ def main():
 
     # 🧩 4. Success
     comment_issue(textwrap.dedent("""
-        ✅ **Issue validation passed successfully!**
-        Awaiting environment approval to continue.
+          This issue has passed automated validation.
+          Now waiting for manual approval by the maintainers.
     """))
     print("Validation passed.")
 
