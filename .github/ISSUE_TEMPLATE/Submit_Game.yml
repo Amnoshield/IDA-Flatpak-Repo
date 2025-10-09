@@ -8,28 +8,32 @@ body:
 - type: input
   id: game_id
   attributes:
-    label: Game ID (e.g., io.github.amnoshield.RecycledCybernetics)
+    label: Game ID
+    description: (e.g., io.github.amnoshield.RecycledCybernetics)
   validations:
     required: true
 
 - type: input
   id: file_name
   attributes:
-    label: File name (e.g., Recycled_Cybernetics_linux.x86_64)
+    label: File Name
+    description: (e.g., Recycled_Cybernetics_linux.x86_64)
   validations:
     required: true
 
 - type: input
   id: source_url
   attributes:
-    label: Github release tarball URL
+    label: Source URL
+    description: Github release tarball URL (e.g. .tar.xz)
   validations:
     required: true
 
 - type: input
   id: sha256
   attributes:
-    label: SHA256 of source
+    label: SHA256
+    description: SHA256 of source tarball
   validations:
     required: true
 
